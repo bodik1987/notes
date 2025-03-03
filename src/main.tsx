@@ -13,8 +13,8 @@ createRoot(document.getElementById("root")!).render(
 
         <Route path="notes">
           <Route element={<NotesLayout />}>
-            <Route index element={<div>1</div>} />
-            <Route path=":id" element={<Home />} />
+            <Route index element={<div>Notes</div>} />
+            <Route path=":id" element={<div>Note 1</div>} />
           </Route>
         </Route>
       </Route>
