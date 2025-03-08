@@ -1,12 +1,12 @@
 import { Link, useParams } from "react-router";
 import useLocalStorage from "../lib/useLocalStorage";
-import { FolderProps, foldersSeed, NotesProps } from "../lib/types";
+import { FolderProps, NotesProps } from "../lib/types";
 import { File, Folder } from "lucide-react";
 
 export default function Folders() {
   const { id } = useParams();
 
-  const [folders] = useLocalStorage<FolderProps[]>("folders", foldersSeed);
+  const [folders] = useLocalStorage<FolderProps[]>("folders", []);
   const [notes] = useLocalStorage<NotesProps[]>("notes", []);
 
   const folder = folders.find((folder) => folder.id === id);

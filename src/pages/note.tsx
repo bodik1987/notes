@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import useLocalStorage from "../lib/useLocalStorage";
-import { FolderProps, foldersSeed, NotesProps } from "../lib/types";
+import { NotesProps } from "../lib/types";
 import Editor from "../components/editor/editor";
 import { Input } from "../components/ui/input";
 import { useState } from "react";
@@ -12,11 +12,6 @@ export default function Note() {
   const note = notes.find((note) => note.id === id);
 
   const [noteTitle, setNoteTitle] = useState(note ? note.title : "");
-
-  const [folders, setFolders] = useLocalStorage<FolderProps[]>(
-    "folders",
-    foldersSeed
-  );
 
   const handleSave = useDebouncedCallback(() => {
     if (note) {

@@ -1,10 +1,10 @@
-import { FolderProps, foldersSeed } from "@/lib/types";
+import { FolderProps } from "@/lib/types";
 import useLocalStorage from "@/lib/useLocalStorage";
 import { Folder } from "lucide-react";
 import { Link } from "react-router";
 
 export default function Home() {
-  const [folers] = useLocalStorage<FolderProps[]>("folders", foldersSeed);
+  const [folers] = useLocalStorage<FolderProps[]>("folders", []);
 
   return (
     <section className="wrapper py-3">

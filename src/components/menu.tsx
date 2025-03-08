@@ -20,7 +20,7 @@ import { useNavigate, useLocation, useParams } from "react-router";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import useLocalStorage from "@/lib/useLocalStorage";
-import { FolderProps, foldersSeed, NotesProps } from "@/lib/types";
+import { FolderProps, NotesProps } from "@/lib/types";
 
 export function MenubarPanel() {
   const { id } = useParams();
@@ -28,10 +28,7 @@ export function MenubarPanel() {
   const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
   const [folderTitle, setFolderTitle] = useState("");
-  const [folders, setFolders] = useLocalStorage<FolderProps[]>(
-    "folders",
-    foldersSeed
-  );
+  const [folders, setFolders] = useLocalStorage<FolderProps[]>("folders", []);
   const [notes, setNotes] = useLocalStorage<NotesProps[]>("notes", []);
 
   return (
