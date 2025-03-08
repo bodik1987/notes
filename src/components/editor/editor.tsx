@@ -11,6 +11,9 @@ import Toolbars from "./toolbars";
 import { useParams } from "react-router";
 import useLocalStorage from "@/lib/useLocalStorage";
 import { NotesProps } from "@/lib/types";
+import { Input } from "../ui/input";
+import { useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
 
 function onError(error: any) {
   console.error(error);
@@ -26,13 +29,34 @@ export default function Editor() {
   };
 
   const { id } = useParams();
-  const [notes] = useLocalStorage<NotesProps[]>("notes", []);
+  const [notes, setNotes] = useLocalStorage<NotesProps[]>("notes", []);
   const note = notes.find((note) => note.id === id);
+
+  const [noteTitle, setNoteTitle] = useState(note ? note.title : "");
+
+  const handleSave = useDebouncedCallback(() => {
+    if (note) {
+      const updatedNote = { ...note, title: noteTitle };
+      setNotes((prevNotes) => {
+        return prevNotes.map((n) =>
+          n.id === updatedNote.id ? updatedNote : n
+        );
+      });
+    }
+  }, 500);
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <LoadState note={note} />
       <Toolbars note={note} />
+      <Input
+        value={noteTitle}
+        onChange={(e) => {
+          setNoteTitle(e.target.value);
+          handleSave();
+        }}
+        className="p-0 shadow-none focus-visible:ring-0 mb-2 outline-0 border-none !text-2xl font-medium"
+      />
       <RichTextPlugin
         contentEditable={
           <ContentEditable spellCheck={false} className="focus:outline-none" />

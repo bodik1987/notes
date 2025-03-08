@@ -79,13 +79,17 @@ export default function Toolbars({ note }: { note: NotesProps | undefined }) {
   };
 
   return (
-    <div className="absolute bottom-4 translate-y-full right-4 flex gap-4 items-center p-4 rounded-full">
+    <div className="sticky top-0 right-4 flex gap-4 items-center py-4 bg-white">
+      <button onClick={handleHeading}>
+        <Heading1Icon />
+      </button>
+
       <button
         disabled={!canUndo}
         onClick={() => {
           editor.dispatchCommand(UNDO_COMMAND, undefined);
         }}
-        className="toolbar-item spaced disabled:opacity-50"
+        className="toolbar-item spaced disabled:opacity-20"
         aria-label="Undo"
       >
         <UndoIcon />
@@ -95,13 +99,10 @@ export default function Toolbars({ note }: { note: NotesProps | undefined }) {
         onClick={() => {
           editor.dispatchCommand(REDO_COMMAND, undefined);
         }}
-        className="toolbar-item spaced disabled:opacity-50"
+        className="toolbar-item spaced disabled:opacity-20"
         aria-label="Redo"
       >
         <RedoIcon />
-      </button>
-      <button onClick={handleHeading} className={`rounded-md`}>
-        <Heading1Icon />
       </button>
     </div>
   );
