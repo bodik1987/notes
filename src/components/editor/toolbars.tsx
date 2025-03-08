@@ -79,7 +79,7 @@ export default function Toolbars({ note }: { note: NotesProps | undefined }) {
   };
 
   return (
-    <div className="absolute bottom-4 right-4 flex gap-4 items-center bg-panel dark:bg-dark-panel backdrop-blur-md p-4 rounded-full">
+    <div className="absolute bottom-4 translate-y-full right-4 flex gap-4 items-center p-4 rounded-full">
       <button
         disabled={!canUndo}
         onClick={() => {
