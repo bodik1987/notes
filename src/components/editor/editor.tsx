@@ -1,5 +1,3 @@
-// import { $getRoot, $getSelection } from "lexical";
-
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
@@ -10,6 +8,9 @@ import { HeadingNode } from "@lexical/rich-text";
 import LoadState from "./loadState";
 import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
 import Toolbars from "./toolbars";
+import { useParams } from "react-router";
+import useLocalStorage from "@/lib/useLocalStorage";
+import { NotesProps } from "@/lib/types";
 
 function onError(error: any) {
   console.error(error);
@@ -24,10 +25,14 @@ export default function Editor() {
     editable: false,
   };
 
+  const { id } = useParams();
+  const [notes] = useLocalStorage<NotesProps[]>("notes", []);
+  const note = notes.find((note) => note.id === id);
+
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <LoadState />
-      <Toolbars />
+      <LoadState note={note} />
+      <Toolbars note={note} />
       <RichTextPlugin
         contentEditable={
           <ContentEditable spellCheck={false} className="focus:outline-none" />

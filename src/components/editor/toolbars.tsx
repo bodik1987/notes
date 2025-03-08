@@ -15,18 +15,23 @@ import { mergeRegister } from "@lexical/utils";
 import { useDebouncedCallback } from "use-debounce";
 import { Heading1Icon, RedoIcon, UndoIcon } from "lucide-react";
 import useLocalStorage from "@/lib/useLocalStorage";
+import { NotesProps } from "@/lib/types";
 
-export default function Toolbars() {
-  const [_, setNote] = useLocalStorage(
-    "note",
-    `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`
-  );
+export default function Toolbars({ note }: { note: NotesProps | undefined }) {
+  const [_, setNotes] = useLocalStorage<NotesProps[]>("notes", []);
   const [editor] = useLexicalComposerContext();
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
 
   const handleSave = useDebouncedCallback((content: string) => {
-    setNote(content);
+    if (note) {
+      const updatedNote = { ...note, body: content };
+      setNotes((prevNotes) => {
+        return prevNotes.map((n) =>
+          n.id === updatedNote.id ? updatedNote : n
+        );
+      });
+    }
   }, 500);
 
   useEffect(() => {

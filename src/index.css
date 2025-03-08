@@ -8,6 +8,14 @@
   @apply w-full max-w-6xl mx-auto;
 }
 
+.folder {
+  @apply flex items-center gap-2 text-lg font-medium mt-2;
+}
+
+.note {
+  @apply flex items-center gap-2 mt-2;
+}
+
 :root {
   --background: oklch(1 0 0);
 

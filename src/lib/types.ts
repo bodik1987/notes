@@ -7,6 +7,7 @@ export type FolderProps = {
 export type NotesProps = {
   id: string;
   title: string;
+  body?: string;
   folderId: string;
 };
 

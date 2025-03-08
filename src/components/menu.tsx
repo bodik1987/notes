@@ -1,16 +1,8 @@
 import {
   Menubar,
-  MenubarCheckboxItem,
   MenubarContent,
   MenubarItem,
   MenubarMenu,
-  MenubarRadioGroup,
-  MenubarRadioItem,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarSub,
-  MenubarSubContent,
-  MenubarSubTrigger,
   MenubarTrigger,
 } from "@/components/ui/menubar";
 import {
@@ -20,7 +12,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { v4 as uuidv4 } from "uuid";
 import { Input } from "@/components/ui/input";
@@ -29,7 +20,7 @@ import { useNavigate, useLocation, useParams } from "react-router";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import useLocalStorage from "@/lib/useLocalStorage";
-import { FolderProps, foldersSeed } from "@/lib/types";
+import { FolderProps, foldersSeed, NotesProps } from "@/lib/types";
 
 export function MenubarPanel() {
   const { id } = useParams();
@@ -41,6 +32,7 @@ export function MenubarPanel() {
     "folders",
     foldersSeed
   );
+  const [notes, setNotes] = useLocalStorage<NotesProps[]>("notes", []);
 
   return (
     <>
@@ -112,12 +104,28 @@ export function MenubarPanel() {
 
           {pathname.includes("/folders/") && (
             <MenubarMenu>
-              <MenubarTrigger>Folder</MenubarTrigger>
+              <MenubarTrigger>Add</MenubarTrigger>
               <MenubarContent>
                 <MenubarItem onSelect={() => setOpen(true)}>
                   New folder
                 </MenubarItem>
-                <MenubarItem>New note</MenubarItem>
+                <MenubarItem
+                  onSelect={() => {
+                    if (id) {
+                      const newNoteId = uuidv4();
+                      const newNote: NotesProps = {
+                        id: newNoteId,
+                        folderId: id,
+                        title: "Untitled",
+                        body: `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`,
+                      };
+                      setNotes([...notes, newNote]);
+                      navigate(`/notes/${newNoteId}`);
+                    }
+                  }}
+                >
+                  New note
+                </MenubarItem>
               </MenubarContent>
             </MenubarMenu>
           )}
