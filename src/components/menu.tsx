@@ -21,10 +21,12 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import useLocalStorage from "@/lib/useLocalStorage";
 import { FolderProps, NotesProps } from "@/lib/types";
+import { ArrowLeft } from "lucide-react";
 
 export function MenubarPanel() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const goBack = () => navigate(-1);
   const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
   const [folderTitle, setFolderTitle] = useState("");
@@ -68,7 +70,7 @@ export function MenubarPanel() {
       </Dialog>
 
       <Menubar>
-        <div className="wrapper flex">
+        <div className="wrapper flex items-center">
           <MenubarMenu>
             <MenubarTrigger>Nav</MenubarTrigger>
             <MenubarContent>
@@ -125,6 +127,12 @@ export function MenubarPanel() {
                 </MenubarItem>
               </MenubarContent>
             </MenubarMenu>
+          )}
+
+          {pathname !== "/" && (
+            <Button onClick={goBack} className="h-7 ml-auto">
+              <ArrowLeft />
+            </Button>
           )}
         </div>
       </Menubar>
