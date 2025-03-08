@@ -34,6 +34,7 @@ export default function Note() {
               setNoteTitle(e.target.value);
               handleSave();
             }}
+            className="p-0 shadow-none focus-visible:ring-0 mb-2 outline-0 border-none text-2xl font-medium"
           />
 
           <Editor />

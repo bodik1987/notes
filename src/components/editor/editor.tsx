@@ -53,7 +53,7 @@ const exampleTheme = {
   paragraph: "",
   quote: "editor-quote",
   heading: {
-    h1: "text-2xl font-bold",
+    h1: "text-xl font-bold",
     h2: "editor-heading-h2",
     h3: "editor-heading-h3",
     h4: "editor-heading-h4",
