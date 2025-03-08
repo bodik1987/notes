@@ -13,19 +13,78 @@ import {
   MenubarSubTrigger,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import { useNavigate } from "react-router";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { v4 as uuidv4 } from "uuid";
+import { Input } from "@/components/ui/input";
+
+import { useNavigate, useLocation, useParams } from "react-router";
+import { Button } from "./ui/button";
+import { useState } from "react";
+import useLocalStorage from "@/lib/useLocalStorage";
+import { FolderProps, foldersSeed } from "@/lib/types";
 
 export function MenubarPanel() {
-  let navigate = useNavigate();
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const [open, setOpen] = useState(false);
+  const [folderTitle, setFolderTitle] = useState("");
+  const [folders, setFolders] = useLocalStorage<FolderProps[]>(
+    "folders",
+    foldersSeed
+  );
+
   return (
-    <Menubar>
-      <div className="wrapper flex">
-        <MenubarMenu>
-          <MenubarTrigger>Nav</MenubarTrigger>
-          <MenubarContent>
-            <MenubarItem onSelect={() => navigate("/")}>Home</MenubarItem>
-            <MenubarItem onSelect={() => navigate("/notes")}>Notes</MenubarItem>
-            <MenubarSeparator />
+    <>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>New folder</DialogTitle>
+            <DialogDescription></DialogDescription>
+          </DialogHeader>
+          <Input
+            value={folderTitle}
+            onChange={(e) => setFolderTitle(e.target.value)}
+          />
+          <DialogFooter>
+            <Button
+              onClick={() => {
+                if (pathname === "/") {
+                  setFolders([
+                    ...folders,
+                    { id: uuidv4(), title: folderTitle },
+                  ]);
+                }
+                if (pathname.includes("/folders/")) {
+                  setFolders([
+                    ...folders,
+                    { id: uuidv4(), title: folderTitle, folderId: id },
+                  ]);
+                }
+                setOpen(false);
+              }}
+            >
+              New folder
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Menubar>
+        <div className="wrapper flex">
+          <MenubarMenu>
+            <MenubarTrigger>Nav</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem onSelect={() => navigate("/")}>Home</MenubarItem>
+              {/* <MenubarSeparator />
             <MenubarSub>
               <MenubarSubTrigger>Share</MenubarSubTrigger>
               <MenubarSubContent>
@@ -37,61 +96,33 @@ export function MenubarPanel() {
             <MenubarSeparator />
             <MenubarItem>
               Print... <MenubarShortcut>⌘P</MenubarShortcut>
-            </MenubarItem>
-          </MenubarContent>
-        </MenubarMenu>
-        <MenubarMenu>
-          <MenubarTrigger>Add</MenubarTrigger>
-          <MenubarContent>
-            <MenubarItem>
-              Undo <MenubarShortcut>⌘Z</MenubarShortcut>
-            </MenubarItem>
-            <MenubarItem>
-              Redo <MenubarShortcut>⇧⌘Z</MenubarShortcut>
-            </MenubarItem>
-            <MenubarSeparator />
-            <MenubarSub>
-              <MenubarSubTrigger>Find</MenubarSubTrigger>
-              <MenubarSubContent>
-                <MenubarItem>Search the web</MenubarItem>
-                <MenubarSeparator />
-                <MenubarItem>Find...</MenubarItem>
-                <MenubarItem>Find Next</MenubarItem>
-                <MenubarItem>Find Previous</MenubarItem>
-              </MenubarSubContent>
-            </MenubarSub>
-            <MenubarSeparator />
-            <MenubarItem>Cut</MenubarItem>
-            <MenubarItem>Copy</MenubarItem>
-            <MenubarItem>Paste</MenubarItem>
-          </MenubarContent>
-        </MenubarMenu>
-        <MenubarMenu>
-          <MenubarTrigger>View</MenubarTrigger>
-          <MenubarContent>
-            <MenubarRadioGroup value="benoit">
-              <MenubarRadioItem value="andy">Andy</MenubarRadioItem>
-              <MenubarRadioItem value="benoit">Benoit</MenubarRadioItem>
-              <MenubarRadioItem value="Luis">Luis</MenubarRadioItem>
-            </MenubarRadioGroup>
-            <MenubarCheckboxItem>Always Show Bookmarks Bar</MenubarCheckboxItem>
-            <MenubarCheckboxItem checked>
-              Always Show Full URLs
-            </MenubarCheckboxItem>
-            <MenubarSeparator />
-            <MenubarItem inset>
-              Reload <MenubarShortcut>⌘R</MenubarShortcut>
-            </MenubarItem>
-            <MenubarItem disabled inset>
-              Force Reload <MenubarShortcut>⇧⌘R</MenubarShortcut>
-            </MenubarItem>
-            <MenubarSeparator />
-            <MenubarItem inset>Toggle Fullscreen</MenubarItem>
-            <MenubarSeparator />
-            <MenubarItem inset>Hide Sidebar</MenubarItem>
-          </MenubarContent>
-        </MenubarMenu>
-      </div>
-    </Menubar>
+            </MenubarItem> */}
+            </MenubarContent>
+          </MenubarMenu>
+          {pathname === "/" && (
+            <MenubarMenu>
+              <MenubarTrigger>Folder</MenubarTrigger>
+              <MenubarContent>
+                <MenubarItem onSelect={() => setOpen(true)}>
+                  New folder
+                </MenubarItem>
+              </MenubarContent>
+            </MenubarMenu>
+          )}
+
+          {pathname.includes("/folders/") && (
+            <MenubarMenu>
+              <MenubarTrigger>Folder</MenubarTrigger>
+              <MenubarContent>
+                <MenubarItem onSelect={() => setOpen(true)}>
+                  New folder
+                </MenubarItem>
+                <MenubarItem>New note</MenubarItem>
+              </MenubarContent>
+            </MenubarMenu>
+          )}
+        </div>
+      </Menubar>
+    </>
   );
 }
