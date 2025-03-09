@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { useNavigate, useLocation, useParams } from "react-router";
 import { Button } from "./ui/button";
 import { useState } from "react";
-import { FilePlus, FolderPlus, Home } from "lucide-react";
+import { FilePlus, FolderPlus, HomeIcon } from "lucide-react";
 import { useAppStore } from "@/lib/store";
 
 export function MenubarPanel() {
@@ -53,9 +53,13 @@ export function MenubarPanel() {
         </DialogContent>
       </Dialog>
 
-      <div className="wrapper flex items-center gap-2 px-3 h-12">
+      <div
+        className={`${
+          pathname.includes("/notes/") && "hidden"
+        } wrapper flex items-center gap-2 px-3 h-12`}
+      >
         <Button variant={"outline"} onClick={() => navigate("/")}>
-          <Home />
+          <HomeIcon />
         </Button>
 
         {pathname === "/" && (

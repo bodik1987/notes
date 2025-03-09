@@ -26,11 +26,16 @@ import {
   RedoIcon,
   UndoIcon,
   TextQuoteIcon,
+  HomeIcon,
 } from "lucide-react";
 import { INote, useAppStore } from "@/lib/store";
+import { Button } from "../ui/button";
+import Home from "@/pages/home";
+import { useNavigate } from "react-router";
 
 export default function Toolbars({ note }: { note: INote | undefined }) {
   const { updateNote } = useAppStore();
+  const navigate = useNavigate();
   const [editor] = useLexicalComposerContext();
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
@@ -112,7 +117,10 @@ export default function Toolbars({ note }: { note: INote | undefined }) {
   };
 
   return (
-    <div className="sticky top-0 right-4 flex gap-4 items-center py-2 bg-white">
+    <div className="sticky top-0 right-4 flex gap-4 items-center h-12 bg-white">
+      <Button variant={"outline"} onClick={() => navigate("/")}>
+        <HomeIcon />
+      </Button>
       <button onClick={() => handleHeading("h1")}>
         <Heading1Icon />
       </button>
@@ -132,7 +140,7 @@ export default function Toolbars({ note }: { note: INote | undefined }) {
         onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "highlight")}
         aria-label="Highlight"
       >
-        <HighlighterIcon size={20} fill="yellow" />
+        <HighlighterIcon size={18} fill="yellow" />
       </button>
 
       <button
