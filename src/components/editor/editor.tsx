@@ -4,7 +4,7 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
-import { HeadingNode } from "@lexical/rich-text";
+import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import LoadState from "./loadState";
 import Toolbars from "./toolbars";
 import { useParams } from "react-router";
@@ -22,7 +22,7 @@ export default function Editor() {
     namespace: "MyEditor",
     theme: exampleTheme,
     onError,
-    nodes: [HeadingNode],
+    nodes: [HeadingNode, QuoteNode],
     editable: false,
   };
 
@@ -67,7 +67,8 @@ const exampleTheme = {
   ltr: "ltr",
   rtl: "rtl",
   paragraph: "",
-  quote: "editor-quote",
+  quote:
+    "editor-quote border-l-3 border-gray-300 pl-4 my-4 italic text-gray-600",
   heading: {
     h1: "text-xl font-bold",
     h2: "text-lg font-bold",

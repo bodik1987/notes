@@ -22,19 +22,6 @@ export function MenubarPanel() {
   const [folderTitle, setFolderTitle] = useState("");
   const { addFolder, addNote } = useAppStore();
 
-  const goBack = () => {
-    const pathSegments = location.pathname.split("/").filter(Boolean); // Убираем пустые элементы
-
-    if (pathSegments.length > 1) {
-      // Удаляем последний сегмент и переходим на оставшийся путь
-      const newPath = "/" + pathSegments.slice(0, -1).join("/");
-      navigate(newPath);
-    } else {
-      // Если в пути только один сегмент, возвращаемся на главную
-      navigate("/");
-    }
-  };
-
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>

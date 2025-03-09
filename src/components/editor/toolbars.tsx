@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { $createHeadingNode, $isHeadingNode } from "@lexical/rich-text";
+import {
+  $createHeadingNode,
+  $isHeadingNode,
+  $createQuoteNode,
+  $isQuoteNode,
+} from "@lexical/rich-text";
 import { $setBlocksType } from "@lexical/selection";
 import {
   $getSelection,
@@ -20,6 +25,7 @@ import {
   HighlighterIcon,
   RedoIcon,
   UndoIcon,
+  TextQuoteIcon,
 } from "lucide-react";
 import { INote, useAppStore } from "@/lib/store";
 
@@ -32,6 +38,7 @@ export default function Toolbars({ note }: { note: INote | undefined }) {
   const handleSave = useDebouncedCallback((content: string) => {
     if (note) {
       updateNote(note.id, { body: content });
+      console.log(content);
     }
   }, 500);
 
@@ -85,6 +92,21 @@ export default function Toolbars({ note }: { note: INote | undefined }) {
     });
   };
 
+  const toggleQuote = () => {
+    editor.update(() => {
+      const selection = $getSelection();
+      if ($isRangeSelection(selection)) {
+        const anchorNode = selection.anchor.getNode();
+        const element = anchorNode.getTopLevelElementOrThrow();
+        if ($isQuoteNode(element)) {
+          $setBlocksType(selection, () => $createParagraphNode());
+        } else {
+          $setBlocksType(selection, () => $createQuoteNode());
+        }
+      }
+    });
+  };
+
   const toggleRedTextColor = () => {
     editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
   };
@@ -96,6 +118,10 @@ export default function Toolbars({ note }: { note: INote | undefined }) {
       </button>
       <button onClick={() => handleHeading("h2")}>
         <Heading2Icon size={21} />
+      </button>
+
+      <button onClick={toggleQuote} aria-label="Toggle Quote">
+        <TextQuoteIcon size={21} />
       </button>
 
       <button onClick={toggleRedTextColor} aria-label="Toggle Red Text Color">
