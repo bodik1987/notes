@@ -30,7 +30,6 @@ import {
 } from "lucide-react";
 import { INote, useAppStore } from "@/lib/store";
 import { Button } from "../ui/button";
-import Home from "@/pages/home";
 import { useNavigate } from "react-router";
 
 export default function Toolbars({ note }: { note: INote | undefined }) {
