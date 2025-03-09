@@ -132,7 +132,7 @@ export default function Toolbars({ note }: { note: INote | undefined }) {
       </button>
 
       <button onClick={toggleRedTextColor} aria-label="Toggle Red Text Color">
-        <ALargeSmall stroke="red" />
+        <ALargeSmall stroke="#FB2C36" />
       </button>
 
       <button
@@ -147,7 +147,7 @@ export default function Toolbars({ note }: { note: INote | undefined }) {
         onClick={() => {
           editor.dispatchCommand(UNDO_COMMAND, undefined);
         }}
-        className="toolbar-item spaced disabled:opacity-20"
+        className="toolbar-item spaced disabled:opacity-20 ml-auto"
         aria-label="Undo"
       >
         <UndoIcon />
