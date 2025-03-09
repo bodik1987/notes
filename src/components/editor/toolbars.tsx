@@ -18,7 +18,6 @@ import {
   Heading1Icon,
   Heading2Icon,
   HighlighterIcon,
-  ListOrdered,
   RedoIcon,
   UndoIcon,
 } from "lucide-react";
