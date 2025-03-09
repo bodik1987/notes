@@ -8,21 +8,32 @@ import {
 } from "@/components/ui/dialog";
 import { v4 as uuidv4 } from "uuid";
 import { Input } from "@/components/ui/input";
-
 import { useNavigate, useLocation, useParams } from "react-router";
 import { Button } from "./ui/button";
 import { useState } from "react";
-import { ArrowLeft, FilePlus, FolderPlus, Home } from "lucide-react";
+import { FilePlus, FolderPlus, Home } from "lucide-react";
 import { useAppStore } from "@/lib/store";
 
 export function MenubarPanel() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const goBack = () => navigate(-1);
   const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
   const [folderTitle, setFolderTitle] = useState("");
   const { addFolder, addNote } = useAppStore();
+
+  const goBack = () => {
+    const pathSegments = location.pathname.split("/").filter(Boolean); // Убираем пустые элементы
+
+    if (pathSegments.length > 1) {
+      // Удаляем последний сегмент и переходим на оставшийся путь
+      const newPath = "/" + pathSegments.slice(0, -1).join("/");
+      navigate(newPath);
+    } else {
+      // Если в пути только один сегмент, возвращаемся на главную
+      navigate("/");
+    }
+  };
 
   return (
     <>
@@ -89,12 +100,6 @@ export function MenubarPanel() {
               <FilePlus />
             </Button>
           </>
-        )}
-
-        {pathname !== "/" && (
-          <Button onClick={goBack} className="ml-auto">
-            <ArrowLeft />
-          </Button>
         )}
       </div>
     </>

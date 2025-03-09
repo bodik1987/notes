@@ -3,8 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import Layout from "./layout.tsx";
 import Note from "./pages/note.tsx";
 import Home from "./pages/home.tsx";
-import "./index.css";
 import Folders from "./pages/folders.tsx";
+import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>

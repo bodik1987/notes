@@ -10,12 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@lexical/list": "^0.27.1",
     "@lexical/react": "^0.27.1",
     "@lexical/rich-text": "^0.27.1",
     "@lexical/selection": "^0.27.1",
     "@lexical/utils": "^0.27.1",
     "@radix-ui/react-dialog": "^1.1.6",
-    "@radix-ui/react-menubar": "^1.1.6",
     "@radix-ui/react-slot": "^1.1.2",
     "@tailwindcss/vite": "^4.0.9",
     "class-variance-authority": "^0.7.1",

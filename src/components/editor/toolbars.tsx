@@ -10,9 +10,18 @@ import {
   CAN_UNDO_COMMAND,
   REDO_COMMAND,
   UNDO_COMMAND,
+  FORMAT_TEXT_COMMAND,
 } from "lexical";
 import { useDebouncedCallback } from "use-debounce";
-import { Heading1Icon, Heading2Icon, RedoIcon, UndoIcon } from "lucide-react";
+import {
+  ALargeSmall,
+  Heading1Icon,
+  Heading2Icon,
+  HighlighterIcon,
+  ListOrdered,
+  RedoIcon,
+  UndoIcon,
+} from "lucide-react";
 import { INote, useAppStore } from "@/lib/store";
 
 export default function Toolbars({ note }: { note: INote | undefined }) {
@@ -77,13 +86,28 @@ export default function Toolbars({ note }: { note: INote | undefined }) {
     });
   };
 
+  const toggleRedTextColor = () => {
+    editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
+  };
+
   return (
-    <div className="sticky top-0 right-4 flex gap-4 items-center py-4 bg-white">
+    <div className="sticky top-0 right-4 flex gap-4 items-center py-2 bg-white">
       <button onClick={() => handleHeading("h1")}>
         <Heading1Icon />
       </button>
       <button onClick={() => handleHeading("h2")}>
-        <Heading2Icon />
+        <Heading2Icon size={21} />
+      </button>
+
+      <button onClick={toggleRedTextColor} aria-label="Toggle Red Text Color">
+        <ALargeSmall stroke="red" />
+      </button>
+
+      <button
+        onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "highlight")}
+        aria-label="Highlight"
+      >
+        <HighlighterIcon size={20} fill="yellow" />
       </button>
 
       <button

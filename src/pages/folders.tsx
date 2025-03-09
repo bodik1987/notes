@@ -11,31 +11,34 @@ export default function Folders() {
   const folderNotes = notes.filter((note) => note.folderId === id);
 
   return (
-    <section>
-      <div className="wrapper py-3 px-3">
-        <div className="">
-          <h1 className="mb-4">{folder ? folder.title : "Folder not found"}</h1>
-        </div>
+    <section className="wrapper px-3 pt-2">
+      <div className="flex items-center gap-2">
+        <Folder size={22} fill="#FFD766" stroke="#E09F00" />
+        <h1>{folder ? folder.title : "Folder not found"}</h1>
+      </div>
 
-        <div className="">
-          {subFolders.map((subFolder) => (
-            <Link
-              key={subFolder.id}
-              to={`/folders/${subFolder.id}`}
-              className="folder"
-            >
-              <Folder /> {subFolder.title}
-            </Link>
-          ))}
-        </div>
+      {subFolders.map((subFolder) => (
+        <Link
+          key={subFolder.id}
+          to={`/folders/${subFolder.id}`}
+          className="folder"
+        >
+          <Folder
+            size={18}
+            fill="#FFD766"
+            stroke="#E09F00"
+            className="ml-1 opacity-80"
+          />{" "}
+          {subFolder.title}
+        </Link>
+      ))}
 
-        <div className="mt-5">
-          {folderNotes.map((note) => (
-            <Link key={note.id} to={`/notes/${note.id}`} className="note">
-              <File size={18} /> {note.title}
-            </Link>
-          ))}
-        </div>
+      <div className="mt-4">
+        {folderNotes.map((note) => (
+          <Link key={note.id} to={`/notes/${note.id}`} className="note">
+            <File size={18} /> {note.title}
+          </Link>
+        ))}
       </div>
     </section>
   );

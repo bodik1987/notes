@@ -6,7 +6,6 @@ import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { HeadingNode } from "@lexical/rich-text";
 import LoadState from "./loadState";
-import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
 import Toolbars from "./toolbars";
 import { useParams } from "react-router";
 import { Input } from "../ui/input";
@@ -59,7 +58,6 @@ export default function Editor() {
         ErrorBoundary={LexicalErrorBoundary}
       />
       <HistoryPlugin />
-      <CheckListPlugin />
       <AutoFocusPlugin />
     </LexicalComposer>
   );
@@ -95,7 +93,7 @@ const exampleTheme = {
     bold: "font-bold",
     code: "editor-textCode",
     italic: "italic",
-    strikethrough: "editor-textStrikethrough",
+    strikethrough: "editor-textStrikethrough text-red-500",
     subscript: "editor-textSubscript",
     superscript: "editor-textSuperscript",
     underline: "editor-textUnderline",
