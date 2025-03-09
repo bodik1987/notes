@@ -1,13 +1,10 @@
 import { Link, useParams } from "react-router";
-import useLocalStorage from "../lib/useLocalStorage";
-import { FolderProps, NotesProps } from "../lib/types";
 import { File, Folder } from "lucide-react";
+import { useAppStore } from "@/lib/store";
 
 export default function Folders() {
   const { id } = useParams();
-
-  const [folders] = useLocalStorage<FolderProps[]>("folders", []);
-  const [notes] = useLocalStorage<NotesProps[]>("notes", []);
+  const { folders, notes } = useAppStore();
 
   const folder = folders.find((folder) => folder.id === id);
   const subFolders = folders.filter((folder) => folder.folderId === id);
@@ -33,9 +30,9 @@ export default function Folders() {
         </div>
 
         <div className="mt-5">
-          {folderNotes.map((notes) => (
-            <Link key={notes.id} to={`/notes/${notes.id}`} className="note">
-              <File size={18} /> {notes.title}
+          {folderNotes.map((note) => (
+            <Link key={note.id} to={`/notes/${note.id}`} className="note">
+              <File size={18} /> {note.title}
             </Link>
           ))}
         </div>

@@ -9,11 +9,10 @@ import LoadState from "./loadState";
 import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
 import Toolbars from "./toolbars";
 import { useParams } from "react-router";
-import useLocalStorage from "@/lib/useLocalStorage";
-import { NotesProps } from "@/lib/types";
 import { Input } from "../ui/input";
 import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
+import { useAppStore } from "@/lib/store";
 
 function onError(error: any) {
   console.error(error);
@@ -29,19 +28,14 @@ export default function Editor() {
   };
 
   const { id } = useParams();
-  const [notes, setNotes] = useLocalStorage<NotesProps[]>("notes", []);
+  const { notes, updateNote } = useAppStore();
   const note = notes.find((note) => note.id === id);
 
   const [noteTitle, setNoteTitle] = useState(note ? note.title : "");
 
   const handleSave = useDebouncedCallback(() => {
     if (note) {
-      const updatedNote = { ...note, title: noteTitle };
-      setNotes((prevNotes) => {
-        return prevNotes.map((n) =>
-          n.id === updatedNote.id ? updatedNote : n
-        );
-      });
+      updateNote(note.id, { title: noteTitle });
     }
   }, 500);
 
@@ -78,7 +72,7 @@ const exampleTheme = {
   quote: "editor-quote",
   heading: {
     h1: "text-xl font-bold",
-    h2: "editor-heading-h2",
+    h2: "text-lg font-bold",
     h3: "editor-heading-h3",
     h4: "editor-heading-h4",
     h5: "editor-heading-h5",

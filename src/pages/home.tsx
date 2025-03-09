@@ -1,15 +1,14 @@
-import { FolderProps } from "@/lib/types";
-import useLocalStorage from "@/lib/useLocalStorage";
+import { useAppStore } from "@/lib/store";
 import { Folder } from "lucide-react";
 import { Link } from "react-router";
 
 export default function Home() {
-  const [folers] = useLocalStorage<FolderProps[]>("folders", []);
+  const folders = useAppStore((state) => state.folders);
 
   return (
     <section className="wrapper py-3">
       <div className="px-3">
-        {folers
+        {folders
           .filter((folder) => !folder.folderId)
           .map((folder) => (
             <Link

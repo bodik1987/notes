@@ -1,11 +1,4 @@
 import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarTrigger,
-} from "@/components/ui/menubar";
-import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -19,9 +12,8 @@ import { Input } from "@/components/ui/input";
 import { useNavigate, useLocation, useParams } from "react-router";
 import { Button } from "./ui/button";
 import { useState } from "react";
-import useLocalStorage from "@/lib/useLocalStorage";
-import { FolderProps, NotesProps } from "@/lib/types";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, FilePlus, FolderPlus, Home } from "lucide-react";
+import { useAppStore } from "@/lib/store";
 
 export function MenubarPanel() {
   const { id } = useParams();
@@ -30,8 +22,7 @@ export function MenubarPanel() {
   const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
   const [folderTitle, setFolderTitle] = useState("");
-  const [folders, setFolders] = useLocalStorage<FolderProps[]>("folders", []);
-  const [notes, setNotes] = useLocalStorage<NotesProps[]>("notes", []);
+  const { addFolder, addNote } = useAppStore();
 
   return (
     <>
@@ -49,18 +40,13 @@ export function MenubarPanel() {
             <Button
               onClick={() => {
                 if (pathname === "/") {
-                  setFolders([
-                    ...folders,
-                    { id: uuidv4(), title: folderTitle },
-                  ]);
+                  addFolder(folderTitle);
                 }
                 if (pathname.includes("/folders/")) {
-                  setFolders([
-                    ...folders,
-                    { id: uuidv4(), title: folderTitle, folderId: id },
-                  ]);
+                  addFolder(folderTitle, id);
                 }
                 setOpen(false);
+                setFolderTitle(""); // Очистка поля ввода
               }}
             >
               New folder
@@ -69,73 +55,48 @@ export function MenubarPanel() {
         </DialogContent>
       </Dialog>
 
-      <Menubar>
-        <div className="wrapper flex items-center">
-          <MenubarMenu>
-            <MenubarTrigger>Nav</MenubarTrigger>
-            <MenubarContent>
-              <MenubarItem onSelect={() => navigate("/")}>Home</MenubarItem>
-              {/* <MenubarSeparator />
-            <MenubarSub>
-              <MenubarSubTrigger>Share</MenubarSubTrigger>
-              <MenubarSubContent>
-                <MenubarItem>Email link</MenubarItem>
-                <MenubarItem>Messages</MenubarItem>
-                <MenubarItem>Notes</MenubarItem>
-              </MenubarSubContent>
-            </MenubarSub>
-            <MenubarSeparator />
-            <MenubarItem>
-              Print... <MenubarShortcut>⌘P</MenubarShortcut>
-            </MenubarItem> */}
-            </MenubarContent>
-          </MenubarMenu>
-          {pathname === "/" && (
-            <MenubarMenu>
-              <MenubarTrigger>Folder</MenubarTrigger>
-              <MenubarContent>
-                <MenubarItem onSelect={() => setOpen(true)}>
-                  New folder
-                </MenubarItem>
-              </MenubarContent>
-            </MenubarMenu>
-          )}
+      <div className="wrapper flex items-center gap-2 px-3 h-12">
+        <Button variant={"outline"} onClick={() => navigate("/")}>
+          <Home />
+        </Button>
 
-          {pathname.includes("/folders/") && (
-            <MenubarMenu>
-              <MenubarTrigger>Add</MenubarTrigger>
-              <MenubarContent>
-                <MenubarItem onSelect={() => setOpen(true)}>
-                  New folder
-                </MenubarItem>
-                <MenubarItem
-                  onSelect={() => {
-                    if (id) {
-                      const newNoteId = uuidv4();
-                      const newNote: NotesProps = {
-                        id: newNoteId,
-                        folderId: id,
-                        title: "Untitled",
-                        body: `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`,
-                      };
-                      setNotes([...notes, newNote]);
-                      navigate(`/notes/${newNoteId}`);
-                    }
-                  }}
-                >
-                  New note
-                </MenubarItem>
-              </MenubarContent>
-            </MenubarMenu>
-          )}
+        {pathname === "/" && (
+          <Button variant={"outline"} onClick={() => setOpen(true)}>
+            <FolderPlus />
+          </Button>
+        )}
 
-          {pathname !== "/" && (
-            <Button onClick={goBack} className="h-7 ml-auto">
-              <ArrowLeft />
+        {pathname.includes("/folders/") && (
+          <>
+            <Button variant={"outline"} onClick={() => setOpen(true)}>
+              <FolderPlus />
             </Button>
-          )}
-        </div>
-      </Menubar>
+            <Button
+              variant={"outline"}
+              onClick={() => {
+                if (id) {
+                  const newId = uuidv4();
+                  addNote(
+                    newId,
+                    id,
+                    "Untitled",
+                    `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`
+                  );
+                  navigate(`/notes/${newId}`);
+                }
+              }}
+            >
+              <FilePlus />
+            </Button>
+          </>
+        )}
+
+        {pathname !== "/" && (
+          <Button onClick={goBack} className="ml-auto">
+            <ArrowLeft />
+          </Button>
+        )}
+      </div>
     </>
   );
 }

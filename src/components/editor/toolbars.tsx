@@ -11,68 +11,67 @@ import {
   REDO_COMMAND,
   UNDO_COMMAND,
 } from "lexical";
-import { mergeRegister } from "@lexical/utils";
 import { useDebouncedCallback } from "use-debounce";
-import { Heading1Icon, RedoIcon, UndoIcon } from "lucide-react";
-import useLocalStorage from "@/lib/useLocalStorage";
-import { NotesProps } from "@/lib/types";
+import { Heading1Icon, Heading2Icon, RedoIcon, UndoIcon } from "lucide-react";
+import { INote, useAppStore } from "@/lib/store";
 
-export default function Toolbars({ note }: { note: NotesProps | undefined }) {
-  const [_, setNotes] = useLocalStorage<NotesProps[]>("notes", []);
+export default function Toolbars({ note }: { note: INote | undefined }) {
+  const { updateNote } = useAppStore();
   const [editor] = useLexicalComposerContext();
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
 
   const handleSave = useDebouncedCallback((content: string) => {
     if (note) {
-      const updatedNote = { ...note, body: content };
-      setNotes((prevNotes) => {
-        return prevNotes.map((n) =>
-          n.id === updatedNote.id ? updatedNote : n
-        );
-      });
+      updateNote(note.id, { body: content });
     }
   }, 500);
 
   useEffect(() => {
-    mergeRegister(
-      editor.registerUpdateListener(
-        ({ editorState, dirtyElements, dirtyLeaves }) => {
-          if (dirtyElements.size === 0 && dirtyLeaves.size === 0) {
-            return;
-          }
-          handleSave(JSON.stringify(editorState));
+    const unregisterUpdateListener = editor.registerUpdateListener(
+      ({ editorState, dirtyElements, dirtyLeaves }) => {
+        if (dirtyElements.size === 0 && dirtyLeaves.size === 0) {
+          return;
         }
-      ),
-      editor.registerCommand(
-        CAN_UNDO_COMMAND,
-        (payload) => {
-          setCanUndo(payload);
-          return false;
-        },
-        1
-      ),
-      editor.registerCommand(
-        CAN_REDO_COMMAND,
-        (payload) => {
-          setCanRedo(payload);
-          return false;
-        },
-        1
-      )
+        handleSave(JSON.stringify(editorState));
+      }
     );
-  }, [editor]);
 
-  const handleHeading = () => {
+    const unregisterCanUndo = editor.registerCommand(
+      CAN_UNDO_COMMAND,
+      (payload) => {
+        setCanUndo(payload);
+        return false;
+      },
+      1
+    );
+
+    const unregisterCanRedo = editor.registerCommand(
+      CAN_REDO_COMMAND,
+      (payload) => {
+        setCanRedo(payload);
+        return false;
+      },
+      1
+    );
+
+    return () => {
+      unregisterUpdateListener();
+      unregisterCanUndo();
+      unregisterCanRedo();
+    };
+  }, [editor, handleSave]);
+
+  const handleHeading = (level: "h1" | "h2" | "h3") => {
     editor.update(() => {
       const selection = $getSelection();
       if ($isRangeSelection(selection)) {
         const anchorNode = selection.anchor.getNode();
         const element = anchorNode.getTopLevelElementOrThrow();
-        if ($isHeadingNode(element)) {
+        if ($isHeadingNode(element) && element.getTag() === level) {
           $setBlocksType(selection, () => $createParagraphNode());
         } else {
-          $setBlocksType(selection, () => $createHeadingNode("h1"));
+          $setBlocksType(selection, () => $createHeadingNode(level));
         }
       }
     });
@@ -80,8 +79,11 @@ export default function Toolbars({ note }: { note: NotesProps | undefined }) {
 
   return (
     <div className="sticky top-0 right-4 flex gap-4 items-center py-4 bg-white">
-      <button onClick={handleHeading}>
+      <button onClick={() => handleHeading("h1")}>
         <Heading1Icon />
+      </button>
+      <button onClick={() => handleHeading("h2")}>
+        <Heading2Icon />
       </button>
 
       <button
