@@ -1,6 +1,6 @@
-import { INote } from "@/lib/types";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { useEffect } from "react";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { INote } from "@/lib/store";
 
 export default function LoadState({ note }: { note: INote | undefined }) {
   const [editor] = useLexicalComposerContext();
