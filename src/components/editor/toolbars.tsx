@@ -27,6 +27,7 @@ import {
   UndoIcon,
   TextQuoteIcon,
   HomeIcon,
+  ArrowLeft,
 } from "lucide-react";
 import { INote, useAppStore } from "@/lib/store";
 import { Button } from "../ui/button";
@@ -35,6 +36,7 @@ import { useNavigate } from "react-router";
 export default function Toolbars({ note }: { note: INote | undefined }) {
   const { updateNote } = useAppStore();
   const navigate = useNavigate();
+  const goBack = () => navigate(-1);
   const [editor] = useLexicalComposerContext();
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
@@ -162,6 +164,10 @@ export default function Toolbars({ note }: { note: INote | undefined }) {
       >
         <RedoIcon />
       </button>
+
+      <Button variant={"secondary"} onClick={goBack}>
+        <ArrowLeft />
+      </Button>
     </div>
   );
 }

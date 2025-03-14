@@ -11,12 +11,13 @@ import { Input } from "@/components/ui/input";
 import { useNavigate, useLocation, useParams } from "react-router";
 import { Button } from "./ui/button";
 import { useState } from "react";
-import { FilePlus, FolderPlus, HomeIcon } from "lucide-react";
+import { ArrowLeft, FilePlus, FolderPlus, HomeIcon } from "lucide-react";
 import { useAppStore } from "@/lib/store";
 
 export function MenubarPanel() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const goBack = () => navigate(-1);
   const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
   const [folderTitle, setFolderTitle] = useState("");
@@ -97,6 +98,12 @@ export function MenubarPanel() {
               <FilePlus />
             </Button>
           </>
+        )}
+
+        {pathname !== "/" && (
+          <Button variant={"secondary"} onClick={goBack} className="ml-auto">
+            <ArrowLeft />
+          </Button>
         )}
       </div>
     </>

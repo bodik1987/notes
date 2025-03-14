@@ -11,7 +11,7 @@ export default function Folders() {
   const folderNotes = notes.filter((note) => note.folderId === id);
 
   return (
-    <section className="wrapper px-3 pt-2">
+    <section className="wrapper px-3 pt-4">
       <div className="flex items-center gap-2">
         <Folder size={22} fill="#FFD766" stroke="#E09F00" />
         <h1>{folder ? folder.title : "Folder not found"}</h1>

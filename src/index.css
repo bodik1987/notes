@@ -39,7 +39,7 @@
 }
 
 .folder {
-  @apply flex items-center gap-2 font-medium mt-2;
+  @apply flex items-center gap-2 font-medium mt-4;
 }
 
 .note {

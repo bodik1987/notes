@@ -55,7 +55,9 @@ export default function Editor() {
         contentEditable={
           <ContentEditable spellCheck={false} className="focus:outline-none" />
         }
-        placeholder={<div className="border-t pt-2">Enter text...</div>}
+        placeholder={
+          <div className="border-t pt-2 select-none">Enter text...</div>
+        }
         ErrorBoundary={LexicalErrorBoundary}
       />
       <HistoryPlugin />
