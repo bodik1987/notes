@@ -28,6 +28,7 @@ import {
   TextQuoteIcon,
   HomeIcon,
   ArrowLeft,
+  BoldIcon,
 } from "lucide-react";
 import { INote, useAppStore } from "@/lib/store";
 import { Button } from "../ui/button";
@@ -122,6 +123,14 @@ export default function Toolbars({ note }: { note: INote | undefined }) {
       <Button variant={"outline"} onClick={() => navigate("/")}>
         <HomeIcon />
       </Button>
+
+      <button
+        onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
+        aria-label="Bold"
+      >
+        <BoldIcon size={18} />
+      </button>
+
       <button onClick={() => handleHeading("h1")}>
         <Heading1Icon />
       </button>

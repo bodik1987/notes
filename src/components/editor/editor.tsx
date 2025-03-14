@@ -73,8 +73,8 @@ const exampleTheme = {
   quote:
     "editor-quote border-l-3 border-gray-300 pl-4 my-4 italic text-gray-600",
   heading: {
-    h1: "text-xl font-bold",
-    h2: "text-lg font-bold",
+    h1: "text-xl font-medium",
+    h2: "text-lg font-medium",
     h3: "editor-heading-h3",
     h4: "editor-heading-h4",
     h5: "editor-heading-h5",
@@ -94,7 +94,7 @@ const exampleTheme = {
   image: "editor-image",
   link: "editor-link",
   text: {
-    bold: "font-bold",
+    bold: "font-semibold",
     code: "editor-textCode",
     italic: "italic",
     strikethrough: "editor-textStrikethrough text-red-500",
