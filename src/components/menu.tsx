@@ -11,8 +11,15 @@ import { Input } from "@/components/ui/input";
 import { useNavigate, useLocation, useParams } from "react-router";
 import { Button } from "./ui/button";
 import { useState } from "react";
-import { ArrowLeft, FilePlus, FolderPlus, HomeIcon } from "lucide-react";
+import {
+  ArrowLeft,
+  FilePlus,
+  FolderPlus,
+  FolderSyncIcon,
+  HomeIcon,
+} from "lucide-react";
 import { useAppStore } from "@/lib/store";
+import Sync from "./sync/sync";
 
 export function MenubarPanel() {
   const { id } = useParams();
@@ -20,6 +27,7 @@ export function MenubarPanel() {
   const goBack = () => navigate(-1);
   const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
+  const [sync, setSync] = useState(false);
   const [folderTitle, setFolderTitle] = useState("");
   const { addFolder, addNote } = useAppStore();
 
@@ -55,6 +63,16 @@ export function MenubarPanel() {
         </DialogContent>
       </Dialog>
 
+      <Dialog open={sync} onOpenChange={setSync}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Sync</DialogTitle>
+            <DialogDescription></DialogDescription>
+          </DialogHeader>
+          <Sync />
+        </DialogContent>
+      </Dialog>
+
       <div
         className={`${
           pathname.includes("/notes/") && "hidden"
@@ -70,9 +88,14 @@ export function MenubarPanel() {
         </Button>
 
         {pathname === "/" && (
-          <Button variant={"outline"} onClick={() => setOpen(true)}>
-            <FolderPlus />
-          </Button>
+          <>
+            <Button variant={"outline"} onClick={() => setOpen(true)}>
+              <FolderPlus />
+            </Button>
+            <Button variant={"outline"} onClick={() => setSync(true)}>
+              <FolderSyncIcon />
+            </Button>
+          </>
         )}
 
         {pathname.includes("/folders/") && (
