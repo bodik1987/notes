@@ -98,7 +98,7 @@ const exampleTheme = {
     code: "editor-textCode",
     italic: "italic",
     strikethrough:
-      "editor-textStrikethrough text-[#F99628] bg-[#FEEFDB] px-1.5 rounded-md",
+      "editor-textStrikethrough text-[#F99628] bg-[#FEEFDB] px-1.5 py-1 rounded-md",
     subscript: "editor-textSubscript",
     superscript: "editor-textSuperscript",
     underline: "editor-textUnderline",
