@@ -23,7 +23,7 @@ export interface INote {
 interface AppState {
   folders: IFolder[];
   notes: INote[];
-  addFolder: (title: string, folderId?: string) => void;
+  addFolder: (id: string, title: string, folderId?: string) => void;
   addNote: (id: string, folderId: string, title: string, body: string) => void;
   updateNote: (id: string, updatedFields: Partial<INote>) => void;
 }
@@ -33,9 +33,9 @@ export const useAppStore = create<AppState>()(
     (set) => ({
       folders: [],
       notes: [],
-      addFolder: (title, folderId) => {
+      addFolder: (id, title, folderId) => {
         set((state) => ({
-          folders: [...state.folders, { id: uuidv4(), title, folderId }],
+          folders: [...state.folders, { id, title, folderId }],
         }));
       },
       addNote: (id, folderId, title, body) => {

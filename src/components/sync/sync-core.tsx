@@ -73,7 +73,7 @@ export default function SyncCore({
                   result.folders.forEach((folder) => {
                     useAppStore
                       .getState()
-                      .addFolder(folder.title, folder.folderId);
+                      .addFolder(folder.id, folder.title, folder.folderId);
                   });
                 }
 

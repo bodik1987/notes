@@ -48,10 +48,10 @@ export function MenubarPanel() {
               disabled={folderTitle.trim().length === 0}
               onClick={() => {
                 if (pathname === "/") {
-                  addFolder(folderTitle);
+                  addFolder(uuidv4(), folderTitle);
                 }
                 if (pathname.includes("/folders/")) {
-                  addFolder(folderTitle, id);
+                  addFolder(uuidv4(), folderTitle, id);
                 }
                 setOpen(false);
                 setFolderTitle(""); // Очистка поля ввода
