@@ -44,17 +44,18 @@ export default function Editor() {
       <Toolbars note={note} />
       <Input
         value={noteTitle}
+        spellCheck={false}
         onChange={(e) => {
           setNoteTitle(e.target.value);
           handleSave();
         }}
-        className="p-0 shadow-none focus-visible:ring-0 mb-2 outline-0 border-none !text-2xl font-medium"
+        className="p-0 shadow-none focus-visible:ring-0 my-2 outline-0 border-none !text-2xl font-medium"
       />
       <RichTextPlugin
         contentEditable={
           <ContentEditable spellCheck={false} className="focus:outline-none" />
         }
-        placeholder={<div>Заметка...</div>}
+        placeholder={<div className="border-t pt-2">Enter text...</div>}
         ErrorBoundary={LexicalErrorBoundary}
       />
       <HistoryPlugin />

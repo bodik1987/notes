@@ -27,7 +27,7 @@ export function MenubarPanel() {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>New folder</DialogTitle>
+            <DialogTitle>Add folder</DialogTitle>
             <DialogDescription></DialogDescription>
           </DialogHeader>
           <Input
@@ -36,6 +36,7 @@ export function MenubarPanel() {
           />
           <DialogFooter>
             <Button
+              disabled={folderTitle.trim().length === 0}
               onClick={() => {
                 if (pathname === "/") {
                   addFolder(folderTitle);
@@ -47,7 +48,7 @@ export function MenubarPanel() {
                 setFolderTitle(""); // Очистка поля ввода
               }}
             >
-              New folder
+              Add
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -58,7 +59,12 @@ export function MenubarPanel() {
           pathname.includes("/notes/") && "hidden"
         } wrapper flex items-center gap-2 px-3 h-12`}
       >
-        <Button variant={"outline"} onClick={() => navigate("/")}>
+        <Button
+          variant={"outline"}
+          disabled={pathname === "/"}
+          className="disabled:opacity-100 disabled:border-transparent disabled:shadow-none"
+          onClick={() => navigate("/")}
+        >
           <HomeIcon />
         </Button>
 
