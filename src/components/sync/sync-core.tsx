@@ -20,7 +20,8 @@ export default function SyncCore({
   setSuccess,
   setError,
 }: Props) {
-  const { folders, notes, addFolder, addNote } = useAppStore();
+  // , addFolder, addNote
+  const { folders, notes } = useAppStore();
   const deleteLocalUser = () => {
     localStorage.clear();
     window.location.reload();
