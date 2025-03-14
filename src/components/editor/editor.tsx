@@ -97,7 +97,7 @@ const exampleTheme = {
     bold: "font-semibold",
     code: "editor-textCode",
     italic: "italic",
-    strikethrough: "editor-textStrikethrough text-red-500",
+    strikethrough: "editor-textStrikethrough text-[#F41234]",
     subscript: "editor-textSubscript",
     superscript: "editor-textSuperscript",
     underline: "editor-textUnderline",

@@ -119,64 +119,72 @@ export default function Toolbars({ note }: { note: INote | undefined }) {
   };
 
   return (
-    <div className="sticky top-0 right-4 flex gap-4 items-center h-12 bg-white">
-      <Button variant={"outline"} onClick={() => navigate("/")}>
-        <HomeIcon />
-      </Button>
+    <div className="sticky top-0 right-4 mt-2 bg-white">
+      <div className="flex justify-between items-center">
+        <Button variant={"outline"} onClick={() => navigate("/")}>
+          <HomeIcon />
+        </Button>
 
-      <button
-        onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
-        aria-label="Bold"
-      >
-        <BoldIcon size={18} />
-      </button>
+        <div className="flex justify-between items-center gap-4">
+          <button
+            disabled={!canUndo}
+            onClick={() => {
+              editor.dispatchCommand(UNDO_COMMAND, undefined);
+            }}
+            className="toolbar-item spaced disabled:opacity-20 ml-auto"
+            aria-label="Undo"
+          >
+            <UndoIcon />
+          </button>
+          <button
+            disabled={!canRedo}
+            onClick={() => {
+              editor.dispatchCommand(REDO_COMMAND, undefined);
+            }}
+            className="toolbar-item spaced disabled:opacity-20"
+            aria-label="Redo"
+          >
+            <RedoIcon />
+          </button>
 
-      <button onClick={() => handleHeading("h1")}>
-        <Heading1Icon />
-      </button>
-      <button onClick={() => handleHeading("h2")}>
-        <Heading2Icon size={21} />
-      </button>
+          <Button variant={"secondary"} onClick={goBack} className="ml-4">
+            <ArrowLeft />
+          </Button>
+        </div>
+      </div>
 
-      <button onClick={toggleQuote} aria-label="Toggle Quote">
-        <TextQuoteIcon size={21} />
-      </button>
+      <div className="mt-2 flex gap-4 items-center justify-end">
+        <button
+          onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
+          aria-label="Bold"
+        >
+          <BoldIcon size={18} />
+        </button>
 
-      <button onClick={toggleRedTextColor} aria-label="Toggle Red Text Color">
-        <ALargeSmall stroke="#FB2C36" />
-      </button>
+        <button onClick={() => handleHeading("h1")}>
+          <Heading1Icon size={20} />
+        </button>
+        <button onClick={() => handleHeading("h2")}>
+          <Heading2Icon size={18} />
+        </button>
 
-      <button
-        onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "highlight")}
-        aria-label="Highlight"
-      >
-        <HighlighterIcon size={18} fill="yellow" />
-      </button>
+        <button onClick={toggleQuote} aria-label="Toggle Quote">
+          <TextQuoteIcon size={18} />
+        </button>
 
-      <button
-        disabled={!canUndo}
-        onClick={() => {
-          editor.dispatchCommand(UNDO_COMMAND, undefined);
-        }}
-        className="toolbar-item spaced disabled:opacity-20 ml-auto"
-        aria-label="Undo"
-      >
-        <UndoIcon />
-      </button>
-      <button
-        disabled={!canRedo}
-        onClick={() => {
-          editor.dispatchCommand(REDO_COMMAND, undefined);
-        }}
-        className="toolbar-item spaced disabled:opacity-20"
-        aria-label="Redo"
-      >
-        <RedoIcon />
-      </button>
+        <button onClick={toggleRedTextColor} aria-label="Toggle Red Text Color">
+          <ALargeSmall stroke="#F41234" />
+        </button>
 
-      <Button variant={"secondary"} onClick={goBack}>
-        <ArrowLeft />
-      </Button>
+        <button
+          onClick={() =>
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, "highlight")
+          }
+          aria-label="Highlight"
+        >
+          <HighlighterIcon size={18} fill="yellow" />
+        </button>
+      </div>
     </div>
   );
 }
