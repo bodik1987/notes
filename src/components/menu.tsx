@@ -16,10 +16,12 @@ import {
   FilePlus,
   FolderPlus,
   FolderSyncIcon,
+  FolderTreeIcon,
   HomeIcon,
 } from "lucide-react";
 import { useAppStore } from "@/lib/store";
 import Sync from "./sync/sync";
+import Tree, { buildTree } from "./ui/tree";
 
 export function MenubarPanel() {
   const { id } = useParams();
@@ -28,8 +30,11 @@ export function MenubarPanel() {
   const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
   const [sync, setSync] = useState(false);
+  const [tree, setTree] = useState(false);
   const [folderTitle, setFolderTitle] = useState("");
-  const { addFolder, addNote } = useAppStore();
+  const { folders, notes, addFolder, addNote } = useAppStore();
+
+  const treeData = buildTree(folders, notes);
 
   return (
     <>
@@ -73,6 +78,16 @@ export function MenubarPanel() {
         </DialogContent>
       </Dialog>
 
+      <Dialog open={tree} onOpenChange={setTree}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Tree</DialogTitle>
+            <DialogDescription></DialogDescription>
+          </DialogHeader>
+          <Tree data={treeData} />
+        </DialogContent>
+      </Dialog>
+
       <div
         className={`${
           pathname.includes("/notes/") && "hidden"
@@ -86,7 +101,6 @@ export function MenubarPanel() {
         >
           <HomeIcon />
         </Button>
-
         {pathname === "/" && (
           <>
             <Button variant={"outline"} onClick={() => setOpen(true)}>
@@ -97,6 +111,10 @@ export function MenubarPanel() {
             </Button>
           </>
         )}
+
+        <Button variant={"outline"} onClick={() => setTree(true)}>
+          <FolderTreeIcon />
+        </Button>
 
         {pathname.includes("/folders/") && (
           <>
@@ -122,7 +140,6 @@ export function MenubarPanel() {
             </Button>
           </>
         )}
-
         {pathname !== "/" && (
           <Button variant={"secondary"} onClick={goBack} className="ml-auto">
             <ArrowLeft />

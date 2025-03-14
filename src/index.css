@@ -11,7 +11,7 @@
 }
 
 .note {
-  @apply flex items-center gap-2 text-lg mt-5;
+  @apply flex items-center gap-2 text-lg mt-5 select-none;
 }
 
 :root {

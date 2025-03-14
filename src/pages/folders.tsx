@@ -12,7 +12,7 @@ export default function Folders() {
 
   return (
     <section className="wrapper px-3">
-      <div className="mt-5 flex items-center gap-2">
+      <div className="mt-5 flex items-center gap-2 select-none">
         <Folder size={22} fill="#FFD766" stroke="#E09F00" />
         <h1>{folder ? folder.title : "Folder not found"}</h1>
       </div>
