@@ -11,8 +11,8 @@ export default function Folders() {
   const folderNotes = notes.filter((note) => note.folderId === id);
 
   return (
-    <section className="wrapper px-3 pt-4">
-      <div className="flex items-center gap-2">
+    <section className="wrapper px-3">
+      <div className="mt-5 flex items-center gap-2">
         <Folder size={22} fill="#FFD766" stroke="#E09F00" />
         <h1>{folder ? folder.title : "Folder not found"}</h1>
       </div>
@@ -24,7 +24,7 @@ export default function Folders() {
           className="folder"
         >
           <Folder
-            size={18}
+            size={20}
             fill="#FFD766"
             stroke="#E09F00"
             className="ml-1 opacity-80"
@@ -36,7 +36,7 @@ export default function Folders() {
       <div className="mt-4">
         {folderNotes.map((note) => (
           <Link key={note.id} to={`/notes/${note.id}`} className="note ml-1">
-            <File size={18} /> {note.title}
+            <File size={20} /> {note.title}
           </Link>
         ))}
       </div>

@@ -7,11 +7,11 @@
 }
 
 .folder {
-  @apply flex items-center gap-2 font-medium mt-4 select-none;
+  @apply flex items-center gap-2 font-medium text-lg mt-5 select-none;
 }
 
 .note {
-  @apply flex items-center gap-2 mt-2;
+  @apply flex items-center gap-2 text-lg mt-5;
 }
 
 :root {
@@ -129,7 +129,7 @@
     @apply bg-background text-foreground;
   }
   h1 {
-    @apply font-medium;
+    @apply text-lg font-medium;
   }
   button {
     @apply cursor-pointer;
