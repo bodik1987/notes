@@ -119,7 +119,7 @@ export default function Toolbars({ note }: { note: INote | undefined }) {
   };
 
   return (
-    <div className="sticky top-0 right-4 mt-2 bg-white">
+    <div className="sticky top-0 right-4 pb-1.5 mt-1.5 bg-white">
       <div className="flex justify-between items-center">
         <Button variant={"outline"} onClick={() => navigate("/")}>
           <HomeIcon />
@@ -153,7 +153,7 @@ export default function Toolbars({ note }: { note: INote | undefined }) {
         </div>
       </div>
 
-      <div className="mt-2 flex gap-4 items-center justify-end">
+      <div className="mt-3 flex gap-4 items-center justify-end">
         <button
           onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
           aria-label="Bold"
