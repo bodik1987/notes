@@ -173,7 +173,7 @@ export default function Toolbars({ note }: { note: INote | undefined }) {
 
         <button
           onClick={toggleRedTextColor}
-          className="text-[#F99628] bg-[#FEEFDB] px-1.5 rounded-md"
+          className="text-[#EA2B41] bg-[#FEEFDB] px-1.5 rounded-md"
         >
           Aa
         </button>
@@ -182,10 +182,8 @@ export default function Toolbars({ note }: { note: INote | undefined }) {
           onClick={() =>
             editor.dispatchCommand(FORMAT_TEXT_COMMAND, "highlight")
           }
-          aria-label="Highlight"
-        >
-          <HighlighterIcon size={18} fill="yellow" />
-        </button>
+          className="h-5 w-5 bg-[#FFFF00] border border-yellow-400 rounded-full"
+        ></button>
       </div>
     </div>
   );
