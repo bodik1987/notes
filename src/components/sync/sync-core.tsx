@@ -62,18 +62,31 @@ export default function SyncCore({
               if (snapshot.exists()) {
                 const result: {
                   folders: IFolder[];
-                  notes: INote;
+                  notes: INote[];
                 } = snapshot.val();
+
+                // Clear existing local data
+                useAppStore.setState({ folders: [], notes: [] });
+
+                // Add folders to the local store
                 if (result.folders) {
-                  //   setItems(result.items);
-                  console.log(result.folders);
+                  result.folders.forEach((folder) => {
+                    useAppStore
+                      .getState()
+                      .addFolder(folder.title, folder.folderId);
+                  });
                 }
+
+                // Add notes to the local store
                 if (result.notes) {
-                  //   setDay(result.day);
-                  console.log(result.notes);
+                  result.notes.forEach((note) => {
+                    useAppStore
+                      .getState()
+                      .addNote(note.id, note.folderId, note.title, note.body);
+                  });
                 }
+
                 setSuccess("Загружено");
-                window.location.reload();
               } else {
                 setError("No data available");
               }
