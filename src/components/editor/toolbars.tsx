@@ -172,7 +172,7 @@ export default function Toolbars({ note }: { note: INote | undefined }) {
 
         <button
           onClick={toggleRedTextColor}
-          className="text-[#EA2B41] bg-[#FEEFDB] px-1.5 rounded-md"
+          className="text-[#9A56CA] bg-[#F6E4FF] px-1.5 rounded-md"
         >
           Aa
         </button>
