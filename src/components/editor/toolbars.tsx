@@ -21,7 +21,6 @@ import { useDebouncedCallback } from "use-debounce";
 import {
   Heading1Icon,
   Heading2Icon,
-  HighlighterIcon,
   RedoIcon,
   UndoIcon,
   TextQuoteIcon,
