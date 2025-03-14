@@ -80,10 +80,12 @@ export function MenubarPanel() {
 
       <Dialog open={tree} onOpenChange={setTree}>
         <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Tree</DialogTitle>
-            <DialogDescription></DialogDescription>
-          </DialogHeader>
+          <div className="hidden">
+            <DialogHeader>
+              <DialogTitle></DialogTitle>
+              <DialogDescription></DialogDescription>
+            </DialogHeader>
+          </div>
           <Tree data={treeData} />
         </DialogContent>
       </Dialog>
@@ -101,6 +103,10 @@ export function MenubarPanel() {
         >
           <HomeIcon />
         </Button>
+        <Button variant={"secondary"} onClick={() => setTree(true)}>
+          <FolderTreeIcon />
+        </Button>
+
         {pathname === "/" && (
           <>
             <Button variant={"outline"} onClick={() => setOpen(true)}>
@@ -111,10 +117,6 @@ export function MenubarPanel() {
             </Button>
           </>
         )}
-
-        <Button variant={"outline"} onClick={() => setTree(true)}>
-          <FolderTreeIcon />
-        </Button>
 
         {pathname.includes("/folders/") && (
           <>

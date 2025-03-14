@@ -20,14 +20,14 @@ function TreeNode({ node }: TreeNodeProps) {
   const hasChildren = node.children && node.children.length > 0;
 
   return (
-    <div style={{ marginLeft: "20px" }}>
-      {/* Родительская папка */}
+    <div className="ml-2">
       {node.type === "folder" && (
-        <div
-          style={{ cursor: "pointer", display: "flex", alignItems: "center" }}
-          onClick={() => setIsExpanded(!isExpanded)}
-        >
-          {isExpanded ? <FolderOpen size={20} /> : <Folder size={20} />}
+        <div className="folder" onClick={() => setIsExpanded(!isExpanded)}>
+          {isExpanded ? (
+            <FolderOpen size={22} fill="#FFD766" stroke="#E09F00" />
+          ) : (
+            <Folder size={20} fill="#FFD766" stroke="#E09F00" />
+          )}
           <span className="ml-1">{node.title}</span>
         </div>
       )}
