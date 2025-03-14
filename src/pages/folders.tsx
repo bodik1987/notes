@@ -35,7 +35,7 @@ export default function Folders() {
 
       <div className="mt-4">
         {folderNotes.map((note) => (
-          <Link key={note.id} to={`/notes/${note.id}`} className="note">
+          <Link key={note.id} to={`/notes/${note.id}`} className="note ml-1">
             <File size={18} /> {note.title}
           </Link>
         ))}
