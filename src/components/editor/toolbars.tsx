@@ -19,7 +19,6 @@ import {
 } from "lexical";
 import { useDebouncedCallback } from "use-debounce";
 import {
-  ALargeSmall,
   Heading1Icon,
   Heading2Icon,
   HighlighterIcon,
@@ -172,8 +171,11 @@ export default function Toolbars({ note }: { note: INote | undefined }) {
           <TextQuoteIcon size={18} />
         </button>
 
-        <button onClick={toggleRedTextColor} aria-label="Toggle Red Text Color">
-          <ALargeSmall stroke="#F41234" />
+        <button
+          onClick={toggleRedTextColor}
+          className="text-[#F99628] bg-[#FEEFDB] px-1.5 rounded-md"
+        >
+          Aa
         </button>
 
         <button
